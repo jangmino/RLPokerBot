@@ -55,7 +55,26 @@ class ACPCEnvironment:
 
     @staticmethod
     def makeGameStateFromMessage(message):
-        re.compile(r'MATCHSTATE:(\d+):(\d+):')
+        """
+        - position
+        - handNumber
+        - betting
+        - holeCards, boardCards
+        :param message: 
+        :return: 
+        """
+        q = re.compile(r'MATCHSTATE:(\d+):(\d+):([^:]*):([^/]*)((/[^/].+)*)')
+
+        m = q.match(message.strip())
+        if not m or len(m.groups()) != 6:
+            RuntimeError("message paring error: " + message.strip())
+
+        position = m.groups(0)
+        handNumber = m.groups(1)
+        betting = m.groups(2)
+        holeCards = m.groups(3)
+        boardCards = m.groups(4)
+
 
 
 
